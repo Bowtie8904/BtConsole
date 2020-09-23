@@ -1,4 +1,4 @@
-package bt.console;
+package bt.console.output;
 
 /**
  * A class to hold formatted information about a single row within a {@link ConsoleTable}.

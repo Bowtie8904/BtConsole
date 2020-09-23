@@ -1,4 +1,4 @@
-package bt.console;
+package bt.console.output;
 
 /**
  * Class that is able to format table cells and their contained values for the {@link ConsoleTable}.

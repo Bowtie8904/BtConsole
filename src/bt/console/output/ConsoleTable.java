@@ -1,4 +1,4 @@
-package bt.console;
+package bt.console.output;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
