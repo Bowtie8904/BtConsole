@@ -32,10 +32,5 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>org.fusesource.jansi</groupId>
-			<artifactId>jansi</artifactId>
-			<version>1.18</version>
-		</dependency>
 	</dependencies>
 </project>
