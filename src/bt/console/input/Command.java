@@ -1,7 +1,5 @@
 package bt.console.input;
 
-import bt.utils.Null;
-
 /**
  * @author &#8904
  *
@@ -81,7 +79,10 @@ public abstract class Command<T extends Command>
 
     protected void missing()
     {
-        Null.checkRun(this.onMissing);
+        if (this.onMissing != null)
+        {
+            this.onMissing.run();
+        }
     }
 
     /**

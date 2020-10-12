@@ -2,8 +2,6 @@ package bt.console.input;
 
 import java.util.function.Consumer;
 
-import bt.utils.Null;
-
 /**
  * Represents a command that can consume an additional value.
  *
@@ -36,7 +34,11 @@ public class ValueCommand extends Command<ValueCommand>
     {
         this.value = value;
         this.executed = true;
-        Null.checkConsume(this.action, value);
+
+        if (this.action != null)
+        {
+            this.action.accept(value);
+        }
     }
 
     /**

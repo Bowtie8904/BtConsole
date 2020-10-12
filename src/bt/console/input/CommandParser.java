@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bt.log.Logger;
-
 /**
  * @author &#8904
  *
@@ -62,7 +60,7 @@ public class CommandParser
                     helpString += "\n" + command.formatCommandHelp(this.prefix, cmd) + "\n";
                 }
 
-                Logger.global().print(helpString);
+                System.out.println(helpString);
             }
             else
             {
@@ -85,11 +83,11 @@ public class CommandParser
 
                 if (cmd == null)
                 {
-                    Logger.global().print("Unknown command: " + arg);
+                    System.out.println("Unknown command: " + arg);
                 }
                 else
                 {
-                    Logger.global().print(command.formatCommandHelp(this.prefix, cmd));
+                    System.out.println(command.formatCommandHelp(this.prefix, cmd));
                 }
             }
         });

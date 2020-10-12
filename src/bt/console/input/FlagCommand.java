@@ -1,7 +1,5 @@
 package bt.console.input;
 
-import bt.utils.Null;
-
 /**
  * Represents a flag command which is either present or not.
  *
@@ -34,7 +32,11 @@ public class FlagCommand extends Command<FlagCommand>
     {
         this.flag = true;
         this.executed = true;
-        Null.checkRun(this.action);
+
+        if (this.action != null)
+        {
+            this.action.run();
+        }
     }
 
     public boolean getFlag()
