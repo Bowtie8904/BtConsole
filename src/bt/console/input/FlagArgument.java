@@ -1,28 +1,28 @@
 package bt.console.input;
 
 /**
- * Represents a flag command which is either present or not.
+ * Represents a flag argument which is either present or not.
  *
  * @author &#8904
  */
-public class FlagCommand extends Command<FlagCommand>
+public class FlagArgument extends Argument<FlagArgument>
 {
     protected Runnable action;
     protected boolean flag;
 
-    public FlagCommand(String... aliases)
+    public FlagArgument(String... aliases)
     {
         super(aliases);
     }
 
     /**
-     * Sets the action that is executed if this command was found during a {@link CommandParser#parse(String[]) parse
+     * Sets the action that is executed if this argument was found during a {@link ArgumentParser#parse(String[]) parse
      * operation}.
      *
      * @param action
      * @return
      */
-    public FlagCommand onExecute(Runnable action)
+    public FlagArgument onExecute(Runnable action)
     {
         this.action = action;
         return this;
@@ -45,7 +45,7 @@ public class FlagCommand extends Command<FlagCommand>
     }
 
     /**
-     * @see bt.console.input.Command#reset()
+     * @see Argument#reset()
      */
     @Override
     protected void reset()

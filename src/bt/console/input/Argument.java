@@ -4,7 +4,7 @@ package bt.console.input;
  * @author &#8904
  *
  */
-public abstract class Command<T extends Command>
+public abstract class Argument<T extends Argument>
 {
     protected Runnable onMissing;
     protected String[] aliases;
@@ -18,7 +18,7 @@ public abstract class Command<T extends Command>
      *
      * @param aliases
      */
-    public Command(String... aliases)
+    public Argument(String... aliases)
     {
         if (aliases.length == 0)
         {
@@ -65,7 +65,7 @@ public abstract class Command<T extends Command>
     }
 
     /**
-     * Sets an action that is executed if this command was not found during a {@link CommandParser#parse(String[]) parse
+     * Sets an action that is executed if this argument was not found during a {@link ArgumentParser#parse(String[]) parse
      * operation}.
      *
      * @param action

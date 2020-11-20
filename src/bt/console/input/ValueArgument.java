@@ -3,28 +3,28 @@ package bt.console.input;
 import java.util.function.Consumer;
 
 /**
- * Represents a command that can consume an additional value.
+ * Represents an argument that can consume an additional value.
  *
  * @author &#8904
  */
-public class ValueCommand extends Command<ValueCommand>
+public class ValueArgument extends Argument<ValueArgument>
 {
     protected Consumer<String> action;
     protected String value;
 
-    public ValueCommand(String... aliases)
+    public ValueArgument(String... aliases)
     {
         super(aliases);
     }
 
     /**
-     * Sets the action that is executed if this command was found during a {@link CommandParser#parse(String[]) parse
+     * Sets the action that is executed if this argument was found during a {@link ArgumentParser#parse(String[]) parse
      * operation}. The consumed String is the argument value.
      *
      * @param action
      * @return
      */
-    public ValueCommand onExecute(Consumer<String> action)
+    public ValueArgument onExecute(Consumer<String> action)
     {
         this.action = action;
         return this;
@@ -50,7 +50,7 @@ public class ValueCommand extends Command<ValueCommand>
     }
 
     /**
-     * @see bt.console.input.Command#reset()
+     * @see Argument#reset()
      */
     @Override
     protected void reset()
