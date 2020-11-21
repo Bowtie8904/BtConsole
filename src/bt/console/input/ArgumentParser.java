@@ -45,7 +45,7 @@ public class ArgumentParser
      * @param aliases
      *            The aliases for the help command.
      */
-    public void registerDefaultHelpArgument(String... aliases)
+    public DefaultHelpArgument registerDefaultHelpArgument(String... aliases)
     {
         var argument = new DefaultHelpArgument(aliases);
 
@@ -93,6 +93,8 @@ public class ArgumentParser
         });
 
         register(argument);
+
+        return argument;
     }
 
     /**
