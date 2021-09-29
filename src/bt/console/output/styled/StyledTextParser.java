@@ -2,14 +2,6 @@ package bt.console.output.styled;
 
 public class StyledTextParser
 {
-    private static final String START_TAG = "<+bt";
-    private static final String END_TAG = "<-bt>";
-
-    public String destyleText(String text)
-    {
-        return text.replaceAll("<\\+bt.*?>", "").replaceAll("<-bt>", "");
-    }
-
     public StyledTextNode parseNode(String text)
     {
         StyledTextNode parent = new StyledTextNode();
@@ -28,11 +20,11 @@ public class StyledTextParser
         int startTagEndIndex = 0;
         int endTagIndex = 0;
 
-        startTagIndex = text.indexOf(START_TAG, textIndex);
+        startTagIndex = text.indexOf(Style.START_TAG, textIndex);
 
         if (startTagIndex == -1)
         {
-            endTagIndex = text.indexOf(END_TAG);
+            endTagIndex = text.indexOf(Style.END_TAG);
 
             if (endTagIndex != -1)
             {
@@ -40,7 +32,7 @@ public class StyledTextParser
 
                 if (parent.getParent() != null)
                 {
-                    textIndex = parseNode(text.substring(endTagIndex + END_TAG.length()), parent.getParent());
+                    textIndex = parseNode(text.substring(endTagIndex + Style.END_TAG.length()), parent.getParent());
                 }
                 else
                 {
@@ -62,13 +54,13 @@ public class StyledTextParser
         {
             while (textIndex != -1)
             {
-                startTagEndIndex = text.indexOf(">", textIndex);
-                String[] tags = text.substring(startTagIndex + START_TAG.length(), startTagEndIndex).trim().split(" ");
+                startTagEndIndex = text.indexOf(Style.START_TAG_CLOSE, textIndex);
+                String[] tags = text.substring(startTagIndex + Style.START_TAG.length(), startTagEndIndex).trim().split(" ");
                 node.addStyles(tags);
 
                 // check if there is more tags before the next closing tag
-                startTagIndex = text.indexOf(START_TAG, startTagEndIndex);
-                endTagIndex = text.indexOf(END_TAG, startTagEndIndex);
+                startTagIndex = text.indexOf(Style.START_TAG, startTagEndIndex);
+                endTagIndex = text.indexOf(Style.END_TAG, startTagEndIndex);
 
                 if (startTagIndex != -1 && startTagIndex < endTagIndex)
                 {
@@ -77,7 +69,7 @@ public class StyledTextParser
                 else if (endTagIndex != -1)
                 {
                     textIndex = parseNode(text.substring(startTagEndIndex + 1, endTagIndex), node);
-                    textIndex = parseNode(text.substring(endTagIndex + END_TAG.length()), parent);
+                    textIndex = parseNode(text.substring(endTagIndex + Style.END_TAG.length()), parent);
                 }
                 else
                 {
