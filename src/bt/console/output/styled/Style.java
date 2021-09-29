@@ -1,5 +1,6 @@
 package bt.console.output.styled;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,13 @@ public class Style
     public static String apply(String text, String... styles)
     {
         return START_TAG + " " + Arrays.stream(styles).collect(Collectors.joining(" ")) + START_TAG_CLOSE + text + END_TAG;
+    }
+
+    public static String apply(Throwable e, String... styles)
+    {
+        PrintWriter writer = new ExceptionStyler(styles);
+        e.printStackTrace(writer);
+        return writer.toString();
     }
 
     public static String destyle(String text)
