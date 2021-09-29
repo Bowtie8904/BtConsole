@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author &#8904
@@ -15,6 +17,21 @@ public class ArgumentParser
     protected Map<String, FlagArgument> flagArguments;
     protected Map<String, ValueArgument> valueArguments;
     protected List<Argument> arguments;
+
+    public static String[] parseArguments(String arguments)
+    {
+        Pattern pattern = Pattern.compile("(\"[^\"]+\"|[^\\s\"]+)");
+        Matcher matcher = pattern.matcher(arguments);
+
+        List<String> matches = new ArrayList<>();
+
+        while (matcher.find())
+        {
+            matches.add(matcher.group().replace("\"", ""));
+        }
+
+        return matches.toArray(String[]::new);
+    }
 
     /**
      * Creates a new instance.
