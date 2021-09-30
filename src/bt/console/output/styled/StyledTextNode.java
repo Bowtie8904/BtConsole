@@ -1,8 +1,5 @@
 package bt.console.output.styled;
 
-import bt.utils.Null;
-import bt.utils.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +86,7 @@ public class StyledTextNode
     @Override
     public String toString()
     {
-        String s = "\n" + this.styles.toString() + Null.nullValue(this.text, "") + "\n";
+        String s = "\n" + this.styles.toString() + (this.text != null ? this.text : "") + "\n";
 
         for (var child : this.children)
         {
@@ -101,8 +98,12 @@ public class StyledTextNode
 
     public String toString(int indentation)
     {
-        String s = this.styles.toString() + Null.nullValue(this.text, "") + "\n";
-        s = StringUtils.leftPad(s, s.length() + indentation, " ");
+        String s = this.styles.toString() + (this.text != null ? this.text : "")+ "\n";
+
+        for (int i = 0; i < indentation; i++)
+        {
+            s = " " + s;
+        }
 
         for (var child : this.children)
         {
