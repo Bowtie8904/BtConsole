@@ -74,6 +74,15 @@ public class StyledTextNode
 
         fullList.addAll(this.styles);
 
+        for (String style : this.styles)
+        {
+            if (style.startsWith("-"))
+            {
+                fullList.remove(style);
+                fullList.remove(style.substring(1));
+            }
+        }
+
         return fullList;
     }
 
