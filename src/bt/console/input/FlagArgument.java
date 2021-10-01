@@ -10,9 +10,9 @@ public class FlagArgument extends Argument<FlagArgument>
     protected Runnable action;
     protected boolean flag;
 
-    public FlagArgument(String... aliases)
+    public FlagArgument(String alias, String... aliases)
     {
-        super(aliases);
+        super(alias, aliases);
     }
 
     /**

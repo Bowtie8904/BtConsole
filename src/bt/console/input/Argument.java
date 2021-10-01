@@ -18,14 +18,9 @@ public abstract class Argument<T extends Argument>
      *
      * @param aliases
      */
-    public Argument(String... aliases)
+    public Argument(String alias, String... aliases)
     {
-        if (aliases.length == 0)
-        {
-            throw new IllegalArgumentException("Need at least one alias.");
-        }
-
-        this.aliases = aliases;
+        this.aliases = addAliasToAliasArray(alias, aliases);
         this.usage = "";
         this.description = "";
     }
@@ -120,6 +115,26 @@ public abstract class Argument<T extends Argument>
     public void setExecuted(boolean executed)
     {
         this.executed = executed;
+    }
+
+    protected String[] addAliasToAliasArray(String alias, String[] aliasArray)
+    {
+        if (alias != null)
+        {
+            String[] newAliases = new String[aliasArray.length + 1];
+            newAliases[0] = alias;
+
+            for (int i = 1; i < newAliases.length; i++)
+            {
+                newAliases[i] = aliasArray[i - 1];
+            }
+
+            return newAliases;
+        }
+        else
+        {
+            return aliasArray;
+        }
     }
 
     protected abstract void reset();

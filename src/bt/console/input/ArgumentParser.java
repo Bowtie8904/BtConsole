@@ -1,5 +1,8 @@
 package bt.console.input;
 
+import bt.console.input.args.DefaultHelpArgument;
+import bt.console.input.args.DefaultStyleArgument;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,11 +59,23 @@ public class ArgumentParser
     }
 
     /**
+     * Registers a default flag command that can be used to disable output styling.
+     *
+     * @param aliases The aliases for that command. Can be left empty to use default aliases.
+     */
+    public DefaultStyleArgument registerDefaultStyleArgument(String... aliases)
+    {
+        var argument = new DefaultStyleArgument(aliases);
+        register(argument);
+        return argument;
+    }
+
+    /**
      * Registers a {@link DefaultHelpArgument} which will print the aliases, usage and description for every registered
      * command.
      *
      * @param aliases
-     *            The aliases for the help command.
+     *            The aliases for the help command. Can be left empty to use default aliases.
      */
     public DefaultHelpArgument registerDefaultHelpArgument(String... aliases)
     {

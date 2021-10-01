@@ -1,4 +1,7 @@
-package bt.console.input;
+package bt.console.input.args;
+
+import bt.console.input.Argument;
+import bt.console.input.ValueArgument;
 
 /**
  * @author &#8904
@@ -6,9 +9,19 @@ package bt.console.input;
  */
 public class DefaultHelpArgument extends ValueArgument
 {
-    public DefaultHelpArgument(String... aliases)
+    public DefaultHelpArgument(String alias, String... aliases)
     {
-        super(aliases);
+        super(alias, aliases);
+    }
+
+    public DefaultHelpArgument(String[] aliases)
+    {
+        this(null, aliases);
+    }
+
+    public DefaultHelpArgument()
+    {
+        this("h", "help");
     }
 
     @Override

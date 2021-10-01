@@ -12,9 +12,9 @@ public class ValueArgument extends Argument<ValueArgument>
     protected Consumer<String> action;
     protected String value;
 
-    public ValueArgument(String... aliases)
+    public ValueArgument(String alias, String... aliases)
     {
-        super(aliases);
+        super(alias, aliases);
     }
 
     /**
