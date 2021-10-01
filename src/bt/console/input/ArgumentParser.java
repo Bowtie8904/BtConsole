@@ -65,7 +65,7 @@ public class ArgumentParser
      */
     public DefaultStyleArgument registerDefaultStyleArgument(String... aliases)
     {
-        var argument = new DefaultStyleArgument(aliases);
+        var argument = new DefaultStyleArgument(aliases.length > 0 ? aliases : new String[]{"disablestyle", "disablestyling", "nostyle"});
         register(argument);
         return argument;
     }
@@ -79,7 +79,7 @@ public class ArgumentParser
      */
     public DefaultHelpArgument registerDefaultHelpArgument(String... aliases)
     {
-        var argument = new DefaultHelpArgument(aliases);
+        var argument = new DefaultHelpArgument(aliases.length > 0 ? aliases : new String[]{"help", "h"});
 
         argument.onExecute(arg ->
         {
