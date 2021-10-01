@@ -1,5 +1,7 @@
 package bt.console.output;
 
+import bt.console.output.styled.Style;
+
 /**
  * A class to hold formatted information about a single row within a {@link ConsoleTable}.
  *
@@ -105,7 +107,7 @@ public class ConsoleRow
      */
     public int length()
     {
-        return this.text.length();
+        return Style.destyle(this.text).length();
     }
 
     /**

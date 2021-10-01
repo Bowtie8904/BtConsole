@@ -1,5 +1,7 @@
 package bt.console.output;
 
+import bt.console.output.styled.Style;
+
 /**
  * Class that is able to format table cells and their contained values for the {@link ConsoleTable}.
  *
@@ -7,10 +9,12 @@ package bt.console.output;
  */
 public class ConsoleFormatter
 {
-    private int[] format;
-    private String columnSeparator = "|";
-    private char rowSeparator = '-';
-    private char titleSeparator = '=';
+    protected int[] format;
+    protected String columnSeparator = "|";
+    protected char rowSeparator = '-';
+    protected char titleSeparator = '=';
+    protected String[] separatorStyles = new String[0];
+    protected String[] dataStyles = new String[0];
 
     /**
      * Creates a new instance with the given format.
@@ -23,6 +27,26 @@ public class ConsoleFormatter
     public ConsoleFormatter(int... format)
     {
         this.format = format;
+    }
+
+    /**
+     * Sets the styles for the separator between data values.
+     *
+     * @param separatorStyles Style names that will be used as parameters to the {@link bt.console.output.styled.Style.apply() Style.apply} method.
+     */
+    public void setSeparatorStyles(String... separatorStyles)
+    {
+        this.separatorStyles = separatorStyles;
+    }
+
+    /**
+     * Sets the styles for the data values.
+     *
+     * @param dataStyles Style names that will be used as parameters to the {@link bt.console.output.styled.Style.apply() Style.apply} method.
+     */
+    public void setDataStyles(String... dataStyles)
+    {
+        this.dataStyles = dataStyles;
     }
 
     /**
@@ -66,7 +90,7 @@ public class ConsoleFormatter
             dataCopy[i] = data[i] == null ? "null" : data[i];
         }
 
-        String row = this.columnSeparator;
+        String row = Style.apply(this.columnSeparator, this.separatorStyles);
 
         for (int i = 0; i < dataCopy.length; i ++ )
         {
@@ -100,7 +124,7 @@ public class ConsoleFormatter
                     row += " ";
                 }
 
-                row += dataCopy[i];
+                row += Style.apply(dataCopy[i].toString(), this.dataStyles);
                 spaces = this.format[i] - dataCopy[i].toString().length() - spaces;
 
                 for (int j = 0; j < spaces; j ++ )
@@ -111,7 +135,7 @@ public class ConsoleFormatter
             else
             {
                 row += " ";
-                row += dataCopy[i];
+                row += Style.apply(dataCopy[i].toString(), this.dataStyles);;
                 spaces = this.format[i] - dataCopy[i].toString().length() - 1;
 
                 for (int j = 0; j < spaces; j ++ )
@@ -120,7 +144,7 @@ public class ConsoleFormatter
                 }
             }
 
-            row += this.columnSeparator;
+            row += Style.apply(this.columnSeparator, this.separatorStyles);
         }
 
         return new ConsoleRow(this,

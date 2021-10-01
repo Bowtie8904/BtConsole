@@ -1,5 +1,7 @@
 package bt.console.output;
 
+import bt.console.output.styled.Style;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +13,11 @@ import java.util.List;
  */
 public class ConsoleTable
 {
-    private ConsoleFormatter formatter;
-    private List<ConsoleRow> rows = new ArrayList<>();
-    private ConsoleRow titleRow;
-    private int rowLength = -1;
+    protected ConsoleFormatter formatter;
+    protected List<ConsoleRow> rows = new ArrayList<>();
+    protected ConsoleRow titleRow;
+    protected int rowLength = -1;
+    protected String[] separatorStyles = new String[0];
 
     /**
      * Creates a new instacne which will create a new formatter with the given format.
@@ -34,6 +37,17 @@ public class ConsoleTable
     public ConsoleTable(ConsoleFormatter formatter)
     {
         this.formatter = formatter;
+    }
+
+    public void setTableLineStyles(String... styles)
+    {
+        this.separatorStyles = styles;
+        this.formatter.setSeparatorStyles(styles);
+    }
+
+    public void setDataStyles(String... styles)
+    {
+        this.formatter.setDataStyles(styles);
     }
 
     /**
@@ -238,6 +252,9 @@ public class ConsoleTable
             titleSeparator += this.formatter.getTitleSeparator();
         }
 
+        separator = Style.apply(separator, this.separatorStyles);
+        titleSeparator = Style.apply(titleSeparator, this.separatorStyles);
+
         out.println(separator);
 
         if (this.titleRow != null)
@@ -283,6 +300,9 @@ public class ConsoleTable
             separator += this.formatter.getRowSeparator();
             titleSeparator += this.formatter.getTitleSeparator();
         }
+
+        separator = Style.apply(separator, this.separatorStyles);
+        titleSeparator = Style.apply(titleSeparator, this.separatorStyles);
 
         output += separator + System.lineSeparator();
 
