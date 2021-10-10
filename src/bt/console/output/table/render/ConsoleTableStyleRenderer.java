@@ -1,7 +1,7 @@
 package bt.console.output.table.render;
 
 @FunctionalInterface
-public interface ConsoleTableStyleRenderer
+public interface ConsoleTableStyleRenderer<T>
 {
-    public String[] render(Object value);
+    public String[] render(T value);
 }

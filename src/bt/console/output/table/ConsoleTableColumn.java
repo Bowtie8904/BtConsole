@@ -1,5 +1,6 @@
 package bt.console.output.table;
 
+import bt.console.output.table.render.Alignment;
 import bt.console.output.table.render.ConsoleTableStyleRenderer;
 import bt.console.output.table.render.ConsoleTableValueRenderer;
 
@@ -10,8 +11,8 @@ public class ConsoleTableColumn
     protected ConsoleTableValueRenderer valueRenderer;
     protected int width;
     protected int calculatedWidth;
-    protected boolean headerCentered;
-    protected boolean valuesCentered;
+    protected Alignment headerAlignment;
+    protected Alignment valueAlignment;
     protected String header;
     protected String[] headerStyles;
     protected String[] defaultValueStyles;
@@ -90,24 +91,24 @@ public class ConsoleTableColumn
         this.width = width;
     }
 
-    public boolean isHeaderCentered()
+    public Alignment getHeaderAlignment()
     {
-        return headerCentered;
+        return headerAlignment;
     }
 
-    public void setHeaderCentered(boolean headerCentered)
+    public void setHeaderAlignment(Alignment headerAlignment)
     {
-        this.headerCentered = headerCentered;
+        this.headerAlignment = headerAlignment;
     }
 
-    public boolean isValuesCentered()
+    public Alignment getValueAlignment()
     {
-        return valuesCentered;
+        return valueAlignment;
     }
 
-    public void setValuesCentered(boolean valuesCentered)
+    public void setValueAlignment(Alignment valueAlignment)
     {
-        this.valuesCentered = valuesCentered;
+        this.valueAlignment = valueAlignment;
     }
 
     public String getHeader()

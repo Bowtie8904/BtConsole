@@ -1,9 +1,12 @@
 package bt.console.output.table;
 
 import bt.console.output.styled.Style;
+import bt.console.output.table.render.Alignment;
+import bt.console.output.table.render.ConsoleTableValueRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ConsoleTable
 {
@@ -16,6 +19,68 @@ public class ConsoleTable
     protected String[] defaultHeaderStyles = new String[]{ Style.DEFAULT_TEXT_STYLE, "bold" };
     protected String[] separatorStyles = new String[]{ Style.DEFAULT_TEXT_STYLE };
     protected boolean multiline;
+
+    public static ConsoleTable of(Map map)
+    {
+        return of(map, null, null);
+    }
+
+    public static <K, V> ConsoleTable of(Map<K, V> map, ConsoleTableValueRenderer<K> keyRenderer, ConsoleTableValueRenderer<V> valueRenderer)
+    {
+        var table = new ConsoleTable();
+        table.setMultiline(true);
+
+        var col = table.addColumn("Key");
+
+        if (keyRenderer != null)
+        {
+            col.setValueRenderer(keyRenderer);
+        }
+
+        col = table.addColumn("Value");
+
+        if (valueRenderer != null)
+        {
+            col.setValueRenderer(valueRenderer);
+        }
+
+        for (K key : map.keySet())
+        {
+            table.addRow(key, map.get(key));
+        }
+
+        return table;
+    }
+
+    public static ConsoleTable of(Iterable iterable)
+    {
+        return of(iterable, null);
+    }
+
+    public static <T> ConsoleTable of(Iterable<T> iterable, ConsoleTableValueRenderer<T> valueRenderer)
+    {
+        var table = new ConsoleTable();
+        table.setMultiline(true);
+
+        var col = table.addColumn("Index");
+        col.setValueAlignment(Alignment.RIGHT);
+
+        col = table.addColumn("Value");
+
+        if (valueRenderer != null)
+        {
+            col.setValueRenderer(valueRenderer);
+        }
+
+        int index = 0;
+
+        for (T value : iterable)
+        {
+            table.addRow(index++, value);
+        }
+
+        return table;
+    }
 
     public ConsoleTable(String... columnHeaders)
     {
@@ -34,7 +99,7 @@ public class ConsoleTable
         column.setDefaultHeaderStyles(this.defaultHeaderStyles);
         column.setHeaderStyles(this.defaultHeaderStyles);
         column.setDefaultValueStyles(this.defaultValueStyles);
-        column.setHeaderCentered(true);
+        column.setHeaderAlignment(Alignment.CENTER);
         this.columns.add(column);
 
         return column;
@@ -142,7 +207,7 @@ public class ConsoleTable
 
         for (var col : this.columns)
         {
-            output += formatColumn(col.getHeader(), col.isHeaderCentered(), col.getCalculatedWidth(), col.getHeaderStyles());
+            output += formatColumn(col.getHeader(), col.getHeaderAlignment(), col.getCalculatedWidth(), col.getHeaderStyles());
         }
 
         output += System.lineSeparator() + headerSeparator + System.lineSeparator();
@@ -159,7 +224,7 @@ public class ConsoleTable
                     var col = this.columns.get(j);
                     textValue = row.getTextValue(j, i);
                     output += formatColumn(textValue == null ? "" : textValue,
-                                           col.isValuesCentered(),
+                                           col.getValueAlignment(),
                                            col.getCalculatedWidth(),
                                            col.getStyleRenderer().render(row.getValue(j)));
                 }
@@ -173,13 +238,13 @@ public class ConsoleTable
         return output;
     }
 
-    protected String formatColumn(String value, boolean centered, int width, String[] styles)
+    protected String formatColumn(String value, Alignment alignment, int width, String[] styles)
     {
         String column = "";
 
         int spaces = (int)((width - value.length()) / 2);
 
-        if (centered)
+        if (alignment == Alignment.CENTER)
         {
             for (int j = 0; j < spaces; j ++ )
             {
@@ -193,6 +258,18 @@ public class ConsoleTable
             {
                 column += " ";
             }
+        }
+        else if (alignment == Alignment.RIGHT)
+        {
+            spaces = width - value.toString().length() - 1;
+
+            for (int j = 0; j < spaces; j ++ )
+            {
+                column += " ";
+            }
+
+            column += Style.apply(value.toString(), styles);
+            column += " ";
         }
         else
         {

@@ -24,6 +24,8 @@ public class ConsoleTableColumnValue
         this.formattedLines = new ArrayList<>();
         String text = column.getValueRenderer().render(this.value);
 
+        text = text == null ? "" : text;
+
         if (multiline)
         {
             for (String line : text.split("\n"))
