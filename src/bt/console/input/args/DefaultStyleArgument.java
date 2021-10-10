@@ -9,6 +9,7 @@ public class DefaultStyleArgument extends FlagArgument
     {
         super(firstAlias, aliases);
         onExecute(() -> Style.setEnabled(false));
+        onMissing(() -> Style.setEnabled(true));
     }
 
     public DefaultStyleArgument(String[] aliases)

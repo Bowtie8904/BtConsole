@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 
 public class Style
 {
-    private static boolean enabled = true;
+    private static boolean enabled = false;
+    public static final String DEFAULT_TEXT_STYLE = "default_text";
     public static final String START_TAG = "<+bt";
     public static final String START_TAG_CLOSE = ">";
     public static final String END_TAG = "<-bt>";
