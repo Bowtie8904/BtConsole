@@ -12,6 +12,7 @@ public class Style
     public static final String START_TAG = "<+bt";
     public static final String START_TAG_CLOSE = ">";
     public static final String END_TAG = "<-bt>";
+    public static final String HYPERLINK_STYLE = "hyperlink";
 
     public static String apply(String text, String... styles)
     {
@@ -40,6 +41,16 @@ public class Style
             e.printStackTrace(writer);
             return sWriter.toString();
         }
+    }
+
+    public static String hyperlink(String link)
+    {
+        return apply(link, Style.HYPERLINK_STYLE);
+    }
+
+    public static String hyperlink(String link, String displayText)
+    {
+        return apply(link, Style.HYPERLINK_STYLE, displayText);
     }
 
     public static String destyle(String text)

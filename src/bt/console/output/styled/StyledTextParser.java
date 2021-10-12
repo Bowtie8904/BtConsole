@@ -2,8 +2,34 @@ package bt.console.output.styled;
 
 import bt.console.output.styled.exc.StyleParseException;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class StyledTextParser
 {
+    protected Pattern hyperLinkPattern = Pattern.compile("(<\\+bt hyperlink.*?>|)https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+    protected final static String HYPERLINK_START = Style.START_TAG + " " + Style.HYPERLINK_STYLE;
+
+    public StyledTextNode parseNode(String text, boolean autoResolveHyperlinks)
+    {
+        if (autoResolveHyperlinks)
+        {
+            Matcher matcher = this.hyperLinkPattern.matcher(text);
+
+            while (matcher.find())
+            {
+                String match = matcher.group();
+
+                if (!match.startsWith(HYPERLINK_START))
+                {
+                    text = text.replace(match, Style.hyperlink(match));
+                }
+            }
+        }
+
+        return parseNode(text);
+    }
+
     public StyledTextNode parseNode(String text)
     {
         StyledTextNode parent = new StyledTextNode();
