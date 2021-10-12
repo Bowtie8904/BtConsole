@@ -1,83 +1,95 @@
 package bt.console.output.styled;
 
+import bt.console.output.styled.exc.StyleParseException;
+
 public class StyledTextParser
 {
     public StyledTextNode parseNode(String text)
     {
         StyledTextNode parent = new StyledTextNode();
-        parseNode(text, parent);
-
-        return parent;
-    }
-
-    protected int parseNode(String text, StyledTextNode parent)
-    {
-        StyledTextNode node = new StyledTextNode();
-        parent.addChild(node);
+        StyledTextNode currentNode = parent;
+        currentNode.close();
 
         int textIndex = 0;
+
         int startTagIndex = 0;
-        int startTagEndIndex = 0;
         int endTagIndex = 0;
+        int startTagEndIndex = 0;
 
-        startTagIndex = text.indexOf(Style.START_TAG, textIndex);
-
-        if (startTagIndex == -1)
+        while (textIndex < text.length())
         {
-            endTagIndex = text.indexOf(Style.END_TAG);
+            startTagIndex = text.indexOf(Style.START_TAG, textIndex);
+            endTagIndex = text.indexOf(Style.END_TAG, textIndex);
 
-            if (endTagIndex != -1)
+            if (startTagIndex != -1 && startTagIndex <= Math.max(0, endTagIndex))
             {
-                node.setText(text.substring(0, endTagIndex));
+                // parse starting tag
 
-                if (parent.getParent() != null)
+                // check if there is more text before the start tag
+                if (textIndex < startTagIndex)
                 {
-                    textIndex = parseNode(text.substring(endTagIndex + Style.END_TAG.length()), parent.getParent());
+                    // create new node for remaining text
+                    StyledTextNode newNode = new StyledTextNode();
+                    newNode.setText(text.substring(textIndex, startTagIndex));
+                    newNode.close();
+                    currentNode.addChild(newNode);
                 }
-                else
+
+                // create new node and set as child
+                StyledTextNode newNode = new StyledTextNode();
+                currentNode.addChild(newNode);
+
+                // parse styles
+                textIndex = text.indexOf(Style.START_TAG_CLOSE, textIndex);
+                String[] tags = text.substring(startTagIndex + Style.START_TAG.length(), textIndex).trim().split(" ");
+                newNode.addStyles(tags);
+
+                // moving past starting tag end
+                textIndex += 1;
+
+                // make new node current node for further processing
+                currentNode = newNode;
+            }
+            else if (endTagIndex != -1)
+            {
+                // parse closing tag
+
+                // check if there is more text before the end tag
+                if (textIndex < endTagIndex)
                 {
-                    throw new IllegalArgumentException("Invalid closing tag found: " + text);
+                    currentNode.setText(text.substring(textIndex, endTagIndex));
                 }
+
+                // attempt to close current node
+                try
+                {
+                    currentNode.close();
+                }
+                catch (StyleParseException e)
+                {
+                    throw new StyleParseException("Invalid closing tag found: " + text.substring(0, endTagIndex + Style.END_TAG.length()), e);
+                }
+
+                // move up to parrent after closing node
+                currentNode = currentNode.getParent();
+                textIndex = endTagIndex + Style.END_TAG.length();
             }
             else
             {
-                node.setText(text);
-                textIndex = -1;
-            }
-        }
-        else if (startTagIndex != 0)
-        {
-            node.setText(text.substring(0, startTagIndex));
-            textIndex = parseNode(text.substring(startTagIndex), parent);
-        }
-        else
-        {
-            while (textIndex != -1)
-            {
-                startTagEndIndex = text.indexOf(Style.START_TAG_CLOSE, textIndex);
-                String[] tags = text.substring(startTagIndex + Style.START_TAG.length(), startTagEndIndex).trim().split(" ");
-                node.addStyles(tags);
-
-                // check if there is more tags before the next closing tag
-                startTagIndex = text.indexOf(Style.START_TAG, startTagEndIndex);
-                endTagIndex = text.indexOf(Style.END_TAG, startTagEndIndex);
-
-                if (startTagIndex != -1 && startTagIndex < endTagIndex)
-                {
-                    textIndex = parseNode(text.substring(startTagEndIndex + 1), node);
-                }
-                else if (endTagIndex != -1)
-                {
-                    textIndex = parseNode(text.substring(startTagEndIndex + 1, endTagIndex), node);
-                    textIndex = parseNode(text.substring(endTagIndex + Style.END_TAG.length()), parent);
-                }
-                else
-                {
-                    textIndex = parseNode(text.substring(startTagEndIndex + 1), node);
-                }
+                // add remaining text as new node
+                StyledTextNode newNode = new StyledTextNode();
+                newNode.setText(text.substring(textIndex));
+                newNode.close();
+                currentNode.addChild(newNode);
+                textIndex = text.length();
             }
         }
 
-        return textIndex;
+        if (!parent.isCompletelyClosed())
+        {
+            throw new StyleParseException("One or multiple closing tags missing: " + text);
+        }
+
+        return parent;
     }
 }

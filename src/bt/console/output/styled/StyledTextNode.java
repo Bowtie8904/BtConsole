@@ -1,5 +1,7 @@
 package bt.console.output.styled;
 
+import bt.console.output.styled.exc.StyleParseException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class StyledTextNode
     private List<StyledTextNode> children;
     private List<String> styles;
     private String text = "";
+    private boolean closed;
 
     public StyledTextNode()
     {
@@ -58,6 +61,50 @@ public class StyledTextNode
     public void addStyle(String style)
     {
         this.styles.add(style);
+    }
+
+    public boolean isClosed()
+    {
+        return closed;
+    }
+
+    public void close()
+    {
+        if (this.closed)
+        {
+            throw new StyleParseException("Node already closed.");
+        }
+
+        boolean closedChild = false;
+
+        for (var node : this.children)
+        {
+            if (!node.isClosed())
+            {
+                node.close();
+                closedChild = true;
+                break;
+            }
+        }
+
+        this.closed = !closedChild;
+    }
+
+    public boolean isCompletelyClosed()
+    {
+        boolean isClosed = this.closed;
+
+        for (var childNode : this.children)
+        {
+            isClosed = isClosed && childNode.isCompletelyClosed();
+
+            if (!isClosed)
+            {
+                break;
+            }
+        }
+
+        return isClosed;
     }
 
     public List<String> getStyles()
