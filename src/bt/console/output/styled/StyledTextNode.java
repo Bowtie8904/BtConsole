@@ -12,6 +12,7 @@ public class StyledTextNode
     private List<String> styles;
     private String text = "";
     private boolean closed;
+    private boolean isHyperlink;
 
     public StyledTextNode()
     {
@@ -61,6 +62,11 @@ public class StyledTextNode
     public void addStyle(String style)
     {
         this.styles.add(style);
+
+        if (style.equals(Style.HYPERLINK_STYLE))
+        {
+            this.isHyperlink = true;
+        }
     }
 
     public boolean isClosed()
@@ -111,7 +117,7 @@ public class StyledTextNode
     {
         List<String> fullList = new ArrayList();
 
-        if (this.parent != null)
+        if (this.parent != null && !this.isHyperlink)
         {
             fullList.addAll(this.parent.getStyles());
         }
@@ -128,6 +134,16 @@ public class StyledTextNode
         }
 
         return fullList;
+    }
+
+    public boolean isHyperlink()
+    {
+        return isHyperlink;
+    }
+
+    public void setHyperlink(boolean hyperlink)
+    {
+        isHyperlink = hyperlink;
     }
 
     @Override
