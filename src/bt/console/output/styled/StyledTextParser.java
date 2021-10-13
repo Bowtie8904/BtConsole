@@ -83,7 +83,11 @@ public class StyledTextParser
                 // check if there is more text before the end tag
                 if (textIndex < endTagIndex)
                 {
-                    currentNode.setText(text.substring(textIndex, endTagIndex));
+                    // create new node for remaining text until end tag
+                    StyledTextNode newNode = new StyledTextNode();
+                    newNode.setText(text.substring(textIndex, endTagIndex));
+                    newNode.close();
+                    currentNode.addChild(newNode);
                 }
 
                 // attempt to close current node
