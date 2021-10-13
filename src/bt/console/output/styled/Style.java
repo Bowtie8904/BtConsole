@@ -45,12 +45,12 @@ public class Style
 
     public static String hyperlink(String link)
     {
-        return apply(link, Style.HYPERLINK_STYLE);
+        return hyperlink(link, link);
     }
 
     public static String hyperlink(String link, String displayText)
     {
-        return apply(link, Style.HYPERLINK_STYLE, displayText);
+        return apply(displayText, Style.HYPERLINK_STYLE + "(" + link + ")");
     }
 
     public static String destyle(String text)

@@ -1,6 +1,8 @@
 package bt.console.output.table;
 
 
+import bt.console.output.styled.Style;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +46,9 @@ public class ConsoleTableColumnValue
 
     protected String formatLine(String line, ConsoleTableColumn column)
     {
-        if (column.getWidth() > 0 && line.length() > column.getWidth())
+        String destlyled = Style.destyle(line);
+
+        if (column.getWidth() > 0 && destlyled.length() > column.getWidth())
         {
             if (column.getWidth() <= 3)
             {
@@ -60,7 +64,7 @@ public class ConsoleTableColumnValue
             }
         }
 
-        column.setMaxCalculatedWidth(line.length() + 2);
+        column.setMaxCalculatedWidth(destlyled.length() + 2);
 
         return line;
     }
