@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class StyledTextParser
 {
-    protected Pattern hyperLinkPattern = Pattern.compile("(<\\+bt hyperlink.*?>|<\\+bt hyperlink\\(.*?|)https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+    protected Pattern hyperLinkPattern = Pattern.compile("(?<!<\\+bt hyperlink.)(https?://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|])");
     protected final static String HYPERLINK_START = Style.START_TAG + " " + Style.HYPERLINK_STYLE;
 
     public StyledTextNode parseNode(String text, boolean autoResolveHyperlinks)
@@ -18,12 +18,7 @@ public class StyledTextParser
 
             while (matcher.find())
             {
-                String match = matcher.group();
-
-                if (!match.startsWith(HYPERLINK_START))
-                {
-                    text = text.replace(match, Style.hyperlink(match));
-                }
+                text = matcher.replaceAll(Style.hyperlink("$1"));
             }
         }
 
