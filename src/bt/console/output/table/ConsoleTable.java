@@ -241,8 +241,9 @@ public class ConsoleTable
     protected String formatColumn(String value, Alignment alignment, int width, String[] styles)
     {
         String column = "";
+        String destyledValue = Style.destyle(value);
 
-        int spaces = (int)((width - value.length()) / 2);
+        int spaces = (int)((width - destyledValue.length()) / 2);
 
         if (alignment == Alignment.CENTER)
         {
@@ -251,8 +252,8 @@ public class ConsoleTable
                 column += " ";
             }
 
-            column += Style.apply(value.toString(), styles);
-            spaces = Math.max(width - value.toString().length() - spaces, 1);
+            column += Style.apply(value, styles);
+            spaces = Math.max(width - destyledValue.length() - spaces, 1);
 
             for (int j = 0; j < spaces; j ++ )
             {
@@ -261,21 +262,21 @@ public class ConsoleTable
         }
         else if (alignment == Alignment.RIGHT)
         {
-            spaces = width - value.toString().length() - 1;
+            spaces = width - destyledValue.length() - 1;
 
             for (int j = 0; j < spaces; j ++ )
             {
                 column += " ";
             }
 
-            column += Style.apply(value.toString(), styles);
+            column += Style.apply(value, styles);
             column += " ";
         }
         else
         {
             column += " ";
-            column += Style.apply(value.toString(), styles);
-            spaces = Math.max(width - value.toString().length() - 1, 1);
+            column += Style.apply(value, styles);
+            spaces = Math.max(width - destyledValue.length() - 1, 1);
 
             for (int j = 0; j < spaces; j ++ )
             {
