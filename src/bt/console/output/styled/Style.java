@@ -13,6 +13,7 @@ public class Style
     public static final String START_TAG_CLOSE = ">";
     public static final String END_TAG = "<-bt>";
     public static final String HYPERLINK_STYLE = "hyperlink";
+    public static final String CLICKABLE_COMMAND_STYLE = "clickableCommand";
 
     public static String apply(String text, String... styles)
     {
@@ -51,6 +52,14 @@ public class Style
     public static String hyperlink(String link, String displayText)
     {
         return apply(displayText, Style.HYPERLINK_STYLE + "(" + link + ")");
+    }
+
+    public static String clickableCommand(String command, String displayText, String... styles)
+    {
+        String[] completeStyles = Arrays.copyOf(styles, styles.length + 1);
+        completeStyles[completeStyles.length] = Style.CLICKABLE_COMMAND_STYLE + "(" + command + ")";
+
+        return apply(displayText, completeStyles);
     }
 
     public static String destyle(String text)
