@@ -149,7 +149,7 @@ public class StyledTextNode
     @Override
     public String toString()
     {
-        String s = "\n" + this.styles.toString() + (this.text != null ? this.text : "") + "\n";
+        String s = System.lineSeparator() + this.styles.toString() + (this.text != null ? this.text : "") + System.lineSeparator();
 
         for (var child : this.children)
         {
@@ -161,7 +161,7 @@ public class StyledTextNode
 
     public String toString(int indentation)
     {
-        String s = this.styles.toString() + (this.text != null ? this.text : "")+ "\n";
+        String s = this.styles.toString() + (this.text != null ? this.text : "")+ System.lineSeparator();
 
         for (int i = 0; i < indentation; i++)
         {

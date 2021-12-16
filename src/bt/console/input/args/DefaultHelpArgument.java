@@ -47,12 +47,12 @@ public class DefaultHelpArgument extends ValueArgument
 
         if (!arg.getUsage().isBlank())
         {
-            usageString = "\n" + arg.getUsage();
+            usageString = System.lineSeparator() + arg.getUsage();
         }
 
         if (!arg.getDescription().isBlank())
         {
-            descrString = "\n" + arg.getDescription();
+            descrString = System.lineSeparator() + arg.getDescription();
         }
 
         return aliasString + usageString + descrString;

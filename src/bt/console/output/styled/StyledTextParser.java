@@ -1,6 +1,7 @@
 package bt.console.output.styled;
 
 import bt.console.output.styled.exc.StyleParseException;
+import bt.log.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,6 +13,8 @@ public class StyledTextParser
 
     public StyledTextNode parseNode(String text, boolean autoResolveHyperlinks)
     {
+        Log.entry(text, autoResolveHyperlinks);
+
         if (autoResolveHyperlinks)
         {
             Matcher matcher = this.hyperLinkPattern.matcher(text);
@@ -22,11 +25,17 @@ public class StyledTextParser
             }
         }
 
-        return parseNode(text);
+        var node = parseNode(text);
+
+        Log.exit(node);
+
+        return node;
     }
 
     public StyledTextNode parseNode(String text)
     {
+        Log.entry(text);
+
         StyledTextNode parent = new StyledTextNode();
 
         try
@@ -122,6 +131,8 @@ public class StyledTextParser
         {
             throw new StyleParseException("Failed to parse text: " + text, e);
         }
+
+        Log.exit(parent);
 
         return parent;
     }

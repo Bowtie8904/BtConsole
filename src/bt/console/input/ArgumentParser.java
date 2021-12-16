@@ -90,7 +90,7 @@ public class ArgumentParser
 
                 for (var cmd : this.arguments)
                 {
-                    helpString += "\n" + argument.formatArgumentHelp(this.prefix, cmd) + "\n";
+                    helpString += System.lineSeparator() + argument.formatArgumentHelp(this.prefix, cmd) + System.lineSeparator();
                 }
 
                 Log.info(helpString);
