@@ -2,6 +2,7 @@ package bt.console.input;
 
 import bt.console.input.args.DefaultHelpArgument;
 import bt.console.input.args.DefaultStyleArgument;
+import bt.log.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class ArgumentParser
                     helpString += "\n" + argument.formatArgumentHelp(this.prefix, cmd) + "\n";
                 }
 
-                System.out.println(helpString);
+                Log.info(helpString);
             }
             else
             {
@@ -115,11 +116,11 @@ public class ArgumentParser
 
                 if (cmd == null)
                 {
-                    System.out.println("Unknown argument: " + arg);
+                    Log.error("Unknown argument: " + arg);
                 }
                 else
                 {
-                    System.out.println(argument.formatArgumentHelp(this.prefix, cmd));
+                    Log.info(argument.formatArgumentHelp(this.prefix, cmd));
                 }
             }
         });

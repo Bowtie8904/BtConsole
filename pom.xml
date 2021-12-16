@@ -17,18 +17,21 @@
 					<verbose>true</verbose>
 				</configuration>
 			</plugin>
-			<plugin>  <!-- Create sources.jar -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
+        </plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.Bowtie8904</groupId>
+			<artifactId>BtLogging</artifactId>
+			<version>9c686c24</version>
+		</dependency>
+	</dependencies>
 </project>
