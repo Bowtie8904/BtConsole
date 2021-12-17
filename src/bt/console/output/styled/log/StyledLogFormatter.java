@@ -1,7 +1,6 @@
 package bt.console.output.styled.log;
 
 import bt.console.output.styled.Style;
-import bt.console.output.styled.StyledTextParser;
 import bt.log.DefaultLogFormatter;
 import bt.log.LoggerConfiguration;
 
