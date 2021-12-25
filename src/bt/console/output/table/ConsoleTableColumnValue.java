@@ -30,7 +30,7 @@ public class ConsoleTableColumnValue
 
         if (multiline)
         {
-            for (String line : text.split(System.lineSeparator()))
+            for (String line : text.split(System.lineSeparator() + "|\n"))
             {
                 line = line.trim();
                 line = formatLine(line, column);
@@ -39,7 +39,7 @@ public class ConsoleTableColumnValue
         }
         else
         {
-            String line = formatLine(text.replaceAll(System.lineSeparator(), ""), column);
+            String line = formatLine(text.replaceAll(System.lineSeparator() + "|\n", ""), column);
             this.formattedLines.add(line);
         }
     }

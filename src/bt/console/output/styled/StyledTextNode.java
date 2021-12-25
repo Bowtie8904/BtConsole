@@ -3,7 +3,9 @@ package bt.console.output.styled;
 import bt.console.output.styled.exc.StyleParseException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class StyledTextNode
 {
@@ -113,13 +115,25 @@ public class StyledTextNode
         return isClosed;
     }
 
-    public List<String> getStyles()
+    public Set<String> getStyles()
     {
-        List<String> fullList = new ArrayList();
+        Set<String> fullList = new HashSet();
+        boolean inheritStyles = true;
 
-        if (this.parent != null && !this.isHyperlink)
+        for (String style : this.styles)
         {
-            fullList.addAll(this.parent.getStyles());
+            if (style.equals("-*"))
+            {
+                inheritStyles = false;
+            }
+        }
+
+        if (inheritStyles)
+        {
+            if (this.parent != null && !this.isHyperlink)
+            {
+                fullList.addAll(this.parent.getStyles());
+            }
         }
 
         fullList.addAll(this.styles);
@@ -161,7 +175,7 @@ public class StyledTextNode
 
     public String toString(int indentation)
     {
-        String s = this.styles.toString() + (this.text != null ? this.text : "")+ System.lineSeparator();
+        String s = this.styles.toString() + (this.text != null ? this.text : "") + System.lineSeparator();
 
         for (int i = 0; i < indentation; i++)
         {

@@ -64,6 +64,7 @@ public class StyledTextParser
                         // create new node for remaining text
                         StyledTextNode newNode = new StyledTextNode();
                         newNode.setText(text.substring(textIndex, startTagIndex));
+                        newNode.addStyles(currentNode.getStyles().toArray(new String[0]));
                         newNode.close();
                         currentNode.addChild(newNode);
                     }
@@ -93,6 +94,7 @@ public class StyledTextParser
                         // create new node for remaining text until end tag
                         StyledTextNode newNode = new StyledTextNode();
                         newNode.setText(text.substring(textIndex, endTagIndex));
+                        newNode.addStyles(currentNode.getStyles().toArray(new String[0]));
                         newNode.close();
                         currentNode.addChild(newNode);
                     }

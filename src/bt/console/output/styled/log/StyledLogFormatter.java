@@ -81,7 +81,7 @@ public class StyledLogFormatter extends DefaultLogFormatter
         String text = record.getMessage();
         String finalText = "";
 
-        for (String line : text.split(System.lineSeparator()))
+        for (String line : text.split(System.lineSeparator() + "|\n"))
         {
             if (record.getLevel().equals(Level.SEVERE) || record.getLevel().equals(Level.WARNING))
             {
