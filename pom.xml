@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>com.github.Bowtie8904</groupId>
 			<artifactId>BtLogging</artifactId>
-			<version>a13033f5</version>
+			<version>ee01020</version>
 		</dependency>
 	</dependencies>
 </project>
